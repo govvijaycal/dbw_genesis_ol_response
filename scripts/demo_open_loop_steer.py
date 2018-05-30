@@ -7,7 +7,7 @@ from std_msgs.msg import UInt8
 # NOTE: Assumes d_f in radians.  This may change with ECU reprogramming!
 
 def pub_steer(mode='step'):
-	enable_pub = rospy.Publisher("control/enable_spas", UInt8, queue_size = 1)
+	enable_pub = rospy.Publisher("control/enable_spas", UInt8, queue_size = 1, latch=True)
 	pub = rospy.Publisher("control/steer_angle", Float32, queue_size = 1) 	
 	rospy.init_node('pub_steer_ol', anonymous=True)
 	r = rospy.Rate(10.0)

@@ -6,7 +6,7 @@ from std_msgs.msg import UInt8
 # Open loop tests to evaluate low-level control tracking of acceleration input.
 
 def pub_acc(mode='step'):
-	enable_pub = rospy.Publisher("control/enable_accel", UInt8, queue_size =10)
+	enable_pub = rospy.Publisher("control/enable_accel", UInt8, queue_size =10, latch=True)
 	pub = rospy.Publisher("control/accel", Float32, queue_size =10)
 	rospy.init_node('pub_accel_ol', anonymous=True)
 	r = rospy.Rate(10.0)
