@@ -7,9 +7,9 @@ from std_msgs.msg import UInt8
 # NOTE: Assumes d_f in radians.  This may change with ECU reprogramming!
 
 def pub_steer(mode='step'):
-	enable_pub = rospy.Publisher("control/enable_spas", UInt8, queue_size = 1, latch=True)
-	pub = rospy.Publisher("control/steer_angle", Float32, queue_size = 1) 	
-	rospy.init_node('pub_steer_ol', anonymous=True)
+	enable_pub = rospy.Publisher("control/enable_lkas", UInt8, queue_size = 1, latch=True)
+	pub = rospy.Publisher("control/steer_torque", Float32, queue_size = 1) 	
+	rospy.init_node('pub_lkas_ol', anonymous=True)
 	r = rospy.Rate(10.0)
 
 	while(enable_pub.get_num_connections == 0):
@@ -45,11 +45,11 @@ def step_response(dt_secs):
 	if dt_secs < 2.0:		# [0-5 s]
 		st_des = 0.0
 	elif dt_secs < 4.0:	# [5-10 s]
-		st_des = 0.01
+		st_des = 2.0
 	elif dt_secs < 6.0:	# [10-15 s]
-		st_des = 0.0
+		st_des = -2.0
 	elif dt_secs < 8.0:	# [15-20 s]
-		st_des = -0.01
+		st_des = 0.0
 	else:					# [20+ s]
 		st_des = 0.0			
 
@@ -59,11 +59,11 @@ def ramp_response(dt_secs):
 	if dt_secs < 5.0:		# [0-5 s]
 		st_des = 0.0
 	elif dt_secs < 10.0:	# [5-10 s]
-		st_des = 0.01 * (dt_secs - 5.0)/5.0
+		st_des = 0.0
 	elif dt_secs < 15.0:	# [10-15 s]
-		st_des = 0.01 - 0.01 * (dt_secs - 10.0)/5.0
+		st_des = 0.0
 	elif dt_secs < 20.0:	# [15-20 s]
-		st_des = -0.01 * (dt_secs - 15.0)/5.0
+		st_des = 0.0
 	else:					# [20+ s]
 		st_des = 0.0
 

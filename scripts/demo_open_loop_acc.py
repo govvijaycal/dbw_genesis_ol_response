@@ -6,7 +6,7 @@ from std_msgs.msg import UInt8
 # Open loop tests to evaluate low-level control tracking of acceleration input.
 
 def pub_acc(mode='step'):
-	enable_pub = rospy.Publisher("control/enable_accel", UInt8, queue_size =10)
+	enable_pub = rospy.Publisher("control/enable_accel", UInt8, queue_size =10, latch=True)
 	pub = rospy.Publisher("control/accel", Float32, queue_size =10)
 	rospy.init_node('pub_accel_ol', anonymous=True)
 	r = rospy.Rate(10.0)
@@ -41,11 +41,11 @@ def pub_acc(mode='step'):
 def step_response(dt_secs):
 	if dt_secs < 5.0:		# [0-5 s]
 		a_des = 0.0
-	elif dt_secs < 20.0:	# [5-20 s]
+	elif dt_secs < 15.0:	# [5-20 s]
 		a_des = 1.0
-	elif dt_secs < 25.0:	# [20-25 s]
+	elif dt_secs < 20.0:	# [20-25 s]
 		a_des = 0.0
-	elif dt_secs < 35.0:	# [25-35 s]
+	elif dt_secs < 30.0:	# [25-35 s]
 		a_des = -1.0
 	else:					# [35+ s]
 		a_des = 0.0				
@@ -67,7 +67,7 @@ def ramp_response(dt_secs):
 
 if __name__=="__main__":
 	try:
-		pub_acc(mode='ramp')
+		pub_acc(mode='step')
 	except rospy.ROSInterruptException:
 		pass # to handle node shutdown cleanly
 
