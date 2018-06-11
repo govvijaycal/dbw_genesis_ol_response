@@ -81,14 +81,10 @@ def sine_response(dt_secs):
 
 if __name__=="__main__":
 	try:
-<<<<<<< HEAD
-		pub_acc(mode='step')
-=======
 		parser = argparse.ArgumentParser('Run an open-loop steering response test on the Hyundai Genesis.')
 		parser.add_argument('-m', '--mode', type=str, choices=['step', 'ramp', 'sine'], default='step', help='Test Mode')
 		args = parser.parse_args()
 		pub_acc(mode=args.mode)
->>>>>>> e6bc6606f4e921a3603fc432d5e07fbc62da1182
 	except rospy.ROSInterruptException:
 		pass # to handle node shutdown cleanly
 
